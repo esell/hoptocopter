@@ -237,6 +237,9 @@ func uploadHandler(config conf) http.Handler {
 		// redirect to shields API server
 		roundedFloat := fmt.Sprintf("%.0f", percentCovered)
 		log.Println("Coverage percent: ", roundedFloat)
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+		w.Header().Set("Pragma", "no-cache")
+		w.Header().Set("Expires", "0")
 		http.Redirect(w, r, parsedconfig.ShieldURL+"/coverage-"+roundedFloat+"%25-"+statusColor(roundedFloat)+".svg", http.StatusSeeOther)
 	})
 }
@@ -269,6 +272,9 @@ func displayHandler(config conf) http.Handler {
 			return
 		}
 		w.Header().Set("Content-Type", reqImg.Header.Get("Content-Type"))
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+		w.Header().Set("Pragma", "no-cache")
+		w.Header().Set("Expires", "0")
 		if _, err = io.Copy(w, reqImg.Body); err != nil {
 			httpErrorf(w, "Error writing SVG to ResponseWriter: %s", err)
 			return
