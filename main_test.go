@@ -10,6 +10,28 @@ import (
 	"testing"
 )
 
+func TestToInt(t *testing.T) {
+	tempInt := toInt("20")
+	if tempInt != 20 {
+		t.Errorf("toInt returned %v, should be %v", tempInt, 20)
+	}
+
+}
+
+func TestParseProfile(t *testing.T) {
+	tempProfs, err := ParseProfiles("samples/coverage.out")
+	if err != nil {
+		t.Errorf("ParseProfile returned error: %v", err)
+	}
+	if len(tempProfs) != 1 {
+		t.Errorf("ParseProfile length returned %v, should be %v", len(tempProfs), 1)
+	}
+	if tempProfs[0].FileName != "github.com/esell/hoptocopter/main.go" {
+		t.Errorf("ParseProfile FileName returned %v, should be %v", tempProfs[0].FileName, "github.com/esell/hoptocopter/main.go")
+	}
+
+}
+
 func TestUploadHandler(t *testing.T) {
 	config := conf{ListenPort: "9666", ShieldURL: "blah.com"}
 	uploadHandle := uploadHandler(config)
