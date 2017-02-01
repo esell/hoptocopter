@@ -65,7 +65,15 @@ func TestDisplayHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	displayHandle.ServeHTTP(w, req)
 	if w.Code != http.StatusSeeOther {
-		t.Errorf("uploadHandler GET returned %v, should be %v", w.Code, http.StatusSeeOther)
+		t.Errorf("displayHandler GET returned %v, should be %v", w.Code, http.StatusSeeOther)
+	}
+
+	// POST
+	req, _ = http.NewRequest("POST", "?repo=blah", nil)
+	w = httptest.NewRecorder()
+	displayHandle.ServeHTTP(w, req)
+	if w.Code != http.StatusMethodNotAllowed {
+		t.Errorf("displayHandler POST returned %v, should be %v", w.Code, http.StatusMethodNotAllowed)
 	}
 
 }
