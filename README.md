@@ -18,14 +18,17 @@ Also note that most of this code was 100% lifted from the stdlib of Go, I just w
 
 
 # Install
+Simple as:
 
-`git clone https://git.esheavyindustries.com/esell/hoptocopter.git`
-`cd hoptocopter`
-`docker-compose up`
+* `git clone https://git.esheavyindustries.com/esell/hoptocopter.git`
+* `cd hoptocopter`
+* `docker-compose up`
 
 
 Now all you need to do is POST your coverage output to hoptocopter:
+
 `curl -XPOST 'http://myserver.com:8080/upload?repo=my-cool-app' -F "file=@coverage.out"`
 
 And when you want the badge? Just send a GET hoptocopter's way:
+
 `curl -XPOST 'http://localhost:8080/display?repo=deb-simple'"`
