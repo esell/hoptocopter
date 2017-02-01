@@ -161,6 +161,25 @@ func httpErrorf(w http.ResponseWriter, format string, a ...interface{}) {
 	http.Error(w, err.Error(), http.StatusInternalServerError)
 }
 
+func statusColor(coveragePct string) string {
+	pctInt := toInt(coveragePct)
+
+	if pctInt <= 30 {
+		return "red"
+	}
+
+	if pctInt > 30 && pctInt <= 75 {
+		return "yellow"
+	}
+
+	if pctInt > 75 {
+		return "green"
+	}
+
+	return "blue"
+
+}
+
 func uploadHandler(config conf) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "POST" {
@@ -218,7 +237,7 @@ func uploadHandler(config conf) http.Handler {
 		// redirect to shields API server
 		roundedFloat := fmt.Sprintf("%.0f", percentCovered)
 		log.Println("Coverage percent: ", roundedFloat)
-		http.Redirect(w, r, parsedconfig.ShieldURL+"/coverage-"+roundedFloat+"%-green.svg", http.StatusSeeOther)
+		http.Redirect(w, r, parsedconfig.ShieldURL+"/coverage-"+roundedFloat+"%25-"+statusColor(roundedFloat)+".svg", http.StatusSeeOther)
 	})
 }
 
@@ -244,7 +263,7 @@ func displayHandler(config conf) http.Handler {
 		// get image from shields API server
 		roundedFloat := fmt.Sprintf("%.0f", percentCovered)
 		log.Println("Coverage percent: ", roundedFloat)
-		reqImg, err := http.Get(parsedconfig.ShieldURL + "/coverage-" + roundedFloat + "%25-green.svg")
+		reqImg, err := http.Get(parsedconfig.ShieldURL + "/coverage-" + roundedFloat + "%25-" + statusColor(roundedFloat) + ".svg")
 		if err != nil {
 			httpErrorf(w, "Error loading SVG from shield: %s", err)
 			return
