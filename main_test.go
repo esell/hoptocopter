@@ -55,3 +55,17 @@ func TestUploadHandler(t *testing.T) {
 		t.Errorf("error cleaning up after uploadHandler(): %s", err)
 	}
 }
+
+func TestDisplayHandler(t *testing.T) {
+	config := conf{ListenPort: "9666", ShieldURL: "blah.com"}
+	displayHandle := displayHandler(config)
+
+	// GET
+	req, _ := http.NewRequest("GET", "", nil)
+	w := httptest.NewRecorder()
+	displayHandle.ServeHTTP(w, req)
+	if w.Code != http.StatusSeeOther {
+		t.Errorf("uploadHandler GET returned %v, should be %v", w.Code, http.StatusSeeOther)
+	}
+
+}
