@@ -1,4 +1,4 @@
-[![Coverage](http://esheavyindustries.com:8080/display?repo=hoptocopter)](http://esheavyindustries.com:8080/display?repo=hoptocopter)
+[![Coverage](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)
 
 
 
