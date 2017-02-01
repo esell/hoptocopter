@@ -240,7 +240,7 @@ func uploadHandler(config conf) http.Handler {
 		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 		w.Header().Set("Pragma", "no-cache")
 		w.Header().Set("Expires", "0")
-		http.Redirect(w, r, parsedconfig.ShieldURL+"/coverage-"+roundedFloat+"%25-"+statusColor(roundedFloat)+".svg", http.StatusSeeOther)
+		http.Redirect(w, r, config.ShieldURL+"/coverage-"+roundedFloat+"%25-"+statusColor(roundedFloat)+".svg", http.StatusSeeOther)
 	})
 }
 
@@ -252,7 +252,7 @@ func displayHandler(config conf) http.Handler {
 		}
 		repoName := r.URL.Query().Get("repo")
 		if repoName == "" {
-			http.Redirect(w, r, parsedconfig.ShieldURL+"/coverage-NaN-red.svg", http.StatusSeeOther)
+			http.Redirect(w, r, config.ShieldURL+"/coverage-NaN-red.svg", http.StatusSeeOther)
 			return
 		}
 		profs, err := ParseProfiles(filepath.Join(repoName, "coverage.out"))
@@ -266,7 +266,8 @@ func displayHandler(config conf) http.Handler {
 		// get image from shields API server
 		roundedFloat := fmt.Sprintf("%.0f", percentCovered)
 		log.Println("Coverage percent: ", roundedFloat)
-		reqImg, err := http.Get(parsedconfig.ShieldURL + "/coverage-" + roundedFloat + "%25-" + statusColor(roundedFloat) + ".svg")
+		log.Println("URL: ", config.ShieldURL+"/coverage-"+roundedFloat+"%25-"+statusColor(roundedFloat)+".svg")
+		reqImg, err := http.Get(config.ShieldURL + "/coverage-" + roundedFloat + "%25-" + statusColor(roundedFloat) + ".svg")
 		if err != nil {
 			httpErrorf(w, "Error loading SVG from shield: %s", err)
 			return
