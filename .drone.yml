@@ -1,0 +1,11 @@
+pipeline:
+  build:
+    image: golang
+    commands:
+      - apt-get -y install curl
+      - export GOPATH=$PWD:$PWD/vendor
+      - go test -cover -coverprofile coverage.out
+      - GOOS=linux GOARCH=amd64 go build -o deb-simple_linux
+      - curl -XPOST 'http://esheavyindustries.com:8080/upload?repo=hoptocopter' -F "file=@coverage.out"
+      
+      

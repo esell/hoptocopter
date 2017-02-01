@@ -1,0 +1,4 @@
+{
+    "listenPort" : "8080",
+    "shieldServerURL" : "http://shields/badge"
+}
