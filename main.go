@@ -163,21 +163,16 @@ func httpErrorf(w http.ResponseWriter, format string, a ...interface{}) {
 
 func statusColor(coveragePct string) string {
 	pctInt := toInt(coveragePct)
-
-	if pctInt <= 30 {
+	switch {
+	case pctInt <= 30:
 		return "red"
-	}
-
-	if pctInt > 30 && pctInt <= 75 {
+	case pctInt > 30 && pctInt <= 75:
 		return "yellow"
-	}
-
-	if pctInt > 75 {
+	case pctInt > 75:
 		return "green"
+	default:
+		return "blue"
 	}
-
-	return "blue"
-
 }
 
 func uploadHandler(config conf) http.Handler {
