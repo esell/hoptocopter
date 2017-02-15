@@ -1,7 +1,6 @@
 [![Coverage](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)
 
 
-
 # hoptocopter
 
 
