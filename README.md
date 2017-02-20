@@ -1,3 +1,4 @@
+[![Build Status](https://drone.esheavyindustries.com/api/badges/esell/hoptocopter/status.svg)](https://drone.esheavyindustries.com/esell/hoptocopter)
 [![Coverage](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)
 
 
