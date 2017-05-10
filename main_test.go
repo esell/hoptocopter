@@ -79,7 +79,7 @@ func TestUploadHandler(t *testing.T) {
 }
 
 func TestDisplayHandler(t *testing.T) {
-	config := conf{ListenPort: "9666", ShieldURL: "blah.com"}
+	config := conf{ListenPort: "9666", ShieldURL: "https://img.shields.io/badge"}
 	displayHandle := displayHandler(config)
 
 	// GET
@@ -96,6 +96,43 @@ func TestDisplayHandler(t *testing.T) {
 	displayHandle.ServeHTTP(w, req)
 	if w.Code != http.StatusMethodNotAllowed {
 		t.Errorf("displayHandler POST returned %v, should be %v", w.Code, http.StatusMethodNotAllowed)
+	}
+
+	// real GET - should fail (500)
+	req, _ = http.NewRequest("GET", "?repo=blah", nil)
+	w = httptest.NewRecorder()
+	displayHandle.ServeHTTP(w, req)
+	if w.Code != http.StatusInternalServerError {
+		t.Errorf("displayHandler GET returned %v, should be %v", w.Code, http.StatusInternalServerError)
+	}
+
+	// real GET - should work
+	// stage test files
+
+	origCvr, err := os.Open("samples/coverage.out")
+	if err != nil {
+		t.Errorf("error opening up sample coverage.out: %s", err)
+	}
+	defer origCvr.Close()
+	if err := os.MkdirAll("blah", 0755); err != nil {
+		t.Errorf("error creating directory for %s: %s\n", "blah", err)
+	}
+	copyCvr, err := os.Create("blah/coverage.out")
+	if err != nil {
+		t.Errorf("error creating copy of coverage.out: %s", err)
+	}
+	_, err = io.Copy(copyCvr, origCvr)
+	if err != nil {
+		t.Errorf("error writing copy of coverage.out: %s", err)
+	}
+	if err := copyCvr.Close(); err != nil {
+		t.Errorf("error saving copy of coverage.out: %s", err)
+	}
+	req, _ = http.NewRequest("GET", "?repo=blah", nil)
+	w = httptest.NewRecorder()
+	displayHandle.ServeHTTP(w, req)
+	if w.Code != http.StatusOK {
+		t.Errorf("displayHandler GET returned %v, should be %v", w.Code, http.StatusOK)
 	}
 
 }

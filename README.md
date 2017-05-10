@@ -1,5 +1,5 @@
+[![Build Status](https://drone.esheavyindustries.com/api/badges/esell/hoptocopter/status.svg)](https://drone.esheavyindustries.com/esell/hoptocopter)
 [![Coverage](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)](http://esheavyindustries.com:8080/display?repo=hoptocopter_git)
-
 
 
 # hoptocopter
@@ -32,3 +32,5 @@ Now all you need to do is POST your coverage output to hoptocopter:
 And when you want the badge? Just send a GET hoptocopter's way:
 
 `curl -XPOST 'http://localhost:8080/display?repo=deb-simple'"`
+
+**NOTE** The default compose file does NOT mount any volumes so your coverage results will be erased if the containers restart...
