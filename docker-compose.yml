@@ -5,5 +5,7 @@ services:
     build: .
     ports:
      - "8080:8080"
+    restart: always
   shields:
     image: "beevelop/shields"
+    restart: always
