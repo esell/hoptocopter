@@ -1,9 +1,11 @@
 FROM golang:1.8-alpine
 
-COPY conf.json /go/bin/
+WORKDIR /go/src/app
+COPY . .
 
-RUN apk add --no-cache git && go get git.esheavyindustries.com/esell/hoptocopter
+RUN go-wrapper download
+RUN go-wrapper install
 
-CMD cd /go/bin && ./hoptocopter
+CMD ["go-wrapper", "run"]
 
 EXPOSE 8080

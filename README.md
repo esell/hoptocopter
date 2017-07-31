@@ -31,6 +31,5 @@ Now all you need to do is POST your coverage output to hoptocopter:
 
 And when you want the badge? Just send a GET hoptocopter's way:
 
-`curl -XPOST 'http://localhost:8080/display?repo=deb-simple'"`
+`curl -XGET 'http://myserver.com:8080/display?repo=deb-simple'`
 
-**NOTE** The default compose file does NOT mount any volumes so your coverage results will be erased if the containers restart...

@@ -2,6 +2,9 @@ version: '2'
 
 services:
   hoptocopter:
+    volumes:
+        - .:/go/src/app
+    working_dir: /go/src/app
     build: .
     ports:
      - "8080:8080"
